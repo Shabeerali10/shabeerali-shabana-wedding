@@ -6,7 +6,7 @@ The RSVP form sends each submission to a Google Apps Script Web App, which:
 
 ## Steps
 
-1. Go to [sheets.google.com](https://sheets.google.com) and create a new blank sheet. Name it e.g. "Wedding RSVPs".
+1. Open your sheet: https://docs.google.com/spreadsheets/d/1timGd22ICqlRxzqsnf3sCSivI_7U7pzsiSAiM31slpA/edit
 2. In the sheet, go to **Extensions → Apps Script**.
 3. Delete any placeholder code and paste this:
 

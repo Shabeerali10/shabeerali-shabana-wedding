@@ -64,7 +64,7 @@ export default function RSVP() {
               >
                 Will You Honor Us?
               </motion.h2>
-              <p className="text-romantic-dark/60 font-sans tracking-widest uppercase text-[10px] md:text-xs">Please RSVP by August 28th, 2026</p>
+              <p className="text-romantic-dark/60 font-sans tracking-widest uppercase text-[10px] md:text-xs">Please fill by August 28th, 2026</p>
             </div>
 
             {formStatus === 'success' ? (

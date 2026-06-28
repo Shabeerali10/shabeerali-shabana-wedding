@@ -7,7 +7,7 @@ const links = [
   { name: 'Gallery', href: '#gallery' },
   { name: 'Invitation', href: '#invitation' },
   { name: 'Details', href: '#details' },
-  { name: 'RSVP', href: '#rsvp' },
+  { name: 'Respond', href: '#rsvp' },
 ];
 
 export default function Navbar() {
