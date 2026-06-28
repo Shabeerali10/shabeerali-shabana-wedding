@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Maximize2, Moon, Sparkles } from 'lucide-react';
 
 const images = [
-  "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=2074&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1510076857177-7470076d4098?q=80&w=2072&auto=format&fit=crop"
+  "/Taj.jpeg",
+  "/INDIA.jpg",
+  "/Sabana.jpeg",
+  "/Shabeerali.jpeg"
 ];
 
 export default function Gallery() {

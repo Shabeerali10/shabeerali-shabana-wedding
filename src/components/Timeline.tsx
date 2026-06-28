@@ -7,13 +7,13 @@ const events = [
     title: "Destined by Qadr",
     date: "A Blessed Connection",
     description: "Two lives written to cross paths in perfect divine timing, finding immediate tranquility and mutual understanding in each other's presence.",
-    image: "https://images.unsplash.com/photo-1518196775791-3e9de6088d40?q=80&w=2074&auto=format&fit=crop"
+    image: "/stage.png"
   },
   {
     title: "The Sacred Nikah",
     date: "A Lifelong Covenant",
     description: "Accepting each other as partners for this Dunya and the Akhirah, uniting our lives in obedience and gratitude to Allah (SWT).",
-    image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
+    image: "/Nikah.png"
   }
 ];
 

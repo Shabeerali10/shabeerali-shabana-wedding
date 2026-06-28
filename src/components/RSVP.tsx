@@ -2,15 +2,40 @@ import { motion } from 'motion/react';
 import { Send, CheckCircle2, Sparkles, Moon } from 'lucide-react';
 import { useState, FormEvent } from 'react';
 
-export default function RSVP() {
-  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+// Paste the URL you get after deploying the Apps Script as a Web App (see SETUP_RSVP.md)
+const RSVP_ENDPOINT = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
-  const handleSubmit = (e: FormEvent) => {
+export default function RSVP() {
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [attending, setAttending] = useState<'yes' | 'no'>('yes');
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus('submitting');
-    setTimeout(() => {
-       setFormStatus('success');
-    }, 2000);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: data.get('name'),
+      email: data.get('email'),
+      attending: data.get('attending'),
+      guests: data.get('guests'),
+      message: data.get('message'),
+    };
+
+    try {
+      await fetch(RSVP_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload),
+      });
+      setFormStatus('success');
+      form.reset();
+      setAttending('yes');
+    } catch {
+      setFormStatus('error');
+    }
   };
 
   return (
@@ -65,18 +90,20 @@ export default function RSVP() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-widest font-bold text-romantic-dark/60 ml-2">Full Name</label>
-                    <input 
+                    <input
                       required
-                      type="text" 
+                      name="name"
+                      type="text"
                       placeholder="Your name"
                       className="w-full px-6 py-4 rounded-full bg-white border border-romantic-gold/10 focus:outline-none focus:ring-2 focus:ring-romantic-gold/10 focus:border-romantic-gold transition-all font-sans text-sm"
                     />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-widest font-bold text-romantic-dark/60 ml-2">Email Address</label>
-                    <input 
+                    <input
                       required
-                      type="email" 
+                      name="email"
+                      type="email"
                       placeholder="Your email"
                       className="w-full px-6 py-4 rounded-full bg-white border border-romantic-gold/10 focus:outline-none focus:ring-2 focus:ring-romantic-gold/10 focus:border-romantic-gold transition-all font-sans text-sm"
                     />
@@ -87,24 +114,48 @@ export default function RSVP() {
                   <label className="text-[10px] uppercase tracking-widest font-bold text-romantic-dark/60 ml-2">Will you attend?</label>
                   <div className="grid grid-cols-2 gap-4">
                     <label className="cursor-pointer">
-                      <input type="radio" name="attending" value="yes" className="hidden peer" defaultChecked />
+                      <input
+                        type="radio"
+                        name="attending"
+                        value="yes"
+                        className="hidden peer"
+                        checked={attending === 'yes'}
+                        onChange={() => setAttending('yes')}
+                      />
                       <div className="px-6 py-4 rounded-full bg-white border border-romantic-gold/10 text-center text-xs tracking-wider uppercase font-semibold peer-checked:bg-romantic-gold peer-checked:text-white transition-all hover:bg-romantic-gold/5">
                         Yes, Insha'Allah!
                       </div>
                     </label>
                     <label className="cursor-pointer">
-                      <input type="radio" name="attending" value="no" className="hidden peer" />
+                      <input
+                        type="radio"
+                        name="attending"
+                        value="no"
+                        className="hidden peer"
+                        checked={attending === 'no'}
+                        onChange={() => setAttending('no')}
+                      />
                       <div className="px-6 py-4 rounded-full bg-white border border-romantic-gold/10 text-center text-xs tracking-wider uppercase font-semibold peer-checked:bg-romantic-dark peer-checked:text-white transition-all hover:bg-romantic-dark/5">
                         Sorry, I cannot attend
                       </div>
                     </label>
                   </div>
+                  {attending === 'yes' && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-center text-romantic-gold text-xs font-serif italic pt-1"
+                    >
+                      Alhamdulillah! We can't wait to celebrate with you.
+                    </motion.p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest font-bold text-romantic-dark/60 ml-2">Number of Guests</label>
                   <div className="relative">
-                    <select 
+                    <select
+                      name="guests"
                       className="w-full px-6 py-4 rounded-full bg-white border border-romantic-gold/10 focus:outline-none focus:ring-2 focus:ring-romantic-gold/10 focus:border-romantic-gold transition-all appearance-none font-sans text-sm"
                     >
                       <option>Just me</option>
@@ -122,12 +173,19 @@ export default function RSVP() {
 
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest font-bold text-romantic-dark/60 ml-2">Message for the Couple</label>
-                  <textarea 
+                  <textarea
                     rows={4}
+                    name="message"
                     placeholder="Wishes, prayers, dietary requirements, etc."
                     className="w-full px-6 py-4 rounded-[2rem] bg-white border border-romantic-gold/10 focus:outline-none focus:ring-2 focus:ring-romantic-gold/10 focus:border-romantic-gold transition-all resize-none font-sans text-sm"
                   ></textarea>
                 </div>
+
+                {formStatus === 'error' && (
+                  <p className="text-center text-red-500 text-xs font-sans">
+                    Something went wrong sending your response. Please try again.
+                  </p>
+                )}
 
                 <motion.button
                   whileHover={{ scale: 1.01 }}

@@ -70,8 +70,8 @@ export default function Hero() {
           {/* Frame inspired by elegant archways */}
           <div className="w-[280px] h-[380px] md:w-[350px] md:h-[480px] border border-romantic-gold/30 rounded-[3rem] overflow-hidden bg-white/5 relative p-2 shadow-2xl">
             <div className="w-full h-full rounded-[2.5rem] overflow-hidden">
-              <img 
-                src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop" 
+              <img
+                src="/Manali.jpeg"
                 alt="The Couple"
                 className="w-full h-full object-cover grayscale-[15%] contrast-[105%] hover:scale-105 transition-transform duration-700"
               />
