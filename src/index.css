@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Poppins", sans-serif;
+
+  --color-romantic-beige: #fbf9f4;
+  --color-romantic-blush: rgba(90, 90, 64, 0.15);
+  --color-romantic-gold: #5a5a40;
+  --color-romantic-dark: #2a2a2a;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-romantic-beige text-romantic-dark font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-normal tracking-tight;
+  }
+}
+
+.glass {
+  background: rgba(251, 249, 244, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(90, 90, 64, 0.1);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #5a5a40, #8a8a6a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.organic-border {
+  border-radius: 190px;
+  border: 1px solid rgba(90, 90, 64, 0.1);
+}
