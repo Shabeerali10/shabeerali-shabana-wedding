@@ -1,13 +1,14 @@
-import { motion } from 'motion/react';
-import { Send, CheckCircle2, Sparkles, Moon } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Send, CheckCircle2, Sparkles, Moon, X } from 'lucide-react';
 import { useState, FormEvent } from 'react';
 
 // Paste the URL you get after deploying the Apps Script as a Web App (see SETUP_RSVP.md)
-const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyqgdP7PfIoxWoL4OjIde4cVBxYGZYXIK4_TOEdj9zf1G8KrJ9Pz0bH3gdXdN7Zww/exec';
+const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyLQGlBG0SVqBKW6cxq3taBKUyhR6YO6LiEyTakpHk_plsSfQ5evsgB6WZj5eSvx00/exec';
 
 export default function RSVP() {
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error' | 'duplicate'>('idle');
   const [attending, setAttending] = useState<'yes' | 'no'>('yes');
+  const [duplicateEmail, setDuplicateEmail] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,6 +31,7 @@ export default function RSVP() {
       });
       const result = await res.json();
       if (result.result === 'duplicate') {
+        setDuplicateEmail(String(payload.email || ''));
         setFormStatus('duplicate');
         return;
       }
@@ -170,12 +172,6 @@ export default function RSVP() {
                   </p>
                 )}
 
-                {formStatus === 'duplicate' && (
-                  <p className="text-center text-romantic-dark/70 text-xs font-sans">
-                    This email has already submitted a response. Each guest may only respond once.
-                  </p>
-                )}
-
                 <motion.button
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
@@ -197,6 +193,51 @@ export default function RSVP() {
           </div>
         </div>
       </div>
+
+      {/* Duplicate Response Popup */}
+      <AnimatePresence>
+        {formStatus === 'duplicate' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setFormStatus('idle')}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 10 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-sm w-full bg-white rounded-[2rem] border border-romantic-gold/15 shadow-2xl p-8 text-center"
+            >
+              <button
+                onClick={() => setFormStatus('idle')}
+                className="absolute top-4 right-4 text-romantic-dark/40 hover:text-romantic-dark transition-colors"
+                aria-label="Close"
+              >
+                <X size={18} />
+              </button>
+              <div className="flex items-center justify-center gap-1.5 mb-3">
+                <Sparkles className="w-3.5 h-3.5 text-romantic-gold" />
+                <span className="text-romantic-gold text-[10px] uppercase tracking-[0.4em] font-bold">Jazakallahu Khair</span>
+                <Sparkles className="w-3.5 h-3.5 text-romantic-gold" />
+              </div>
+              <h3 className="text-2xl font-serif text-romantic-dark mb-3">Already Received</h3>
+              <p className="text-romantic-dark/70 text-sm leading-relaxed">
+                A response from <span className="font-semibold text-romantic-dark">{duplicateEmail}</span> has already been received, Insha'Allah. Each guest may kindly respond only once.
+              </p>
+              <button
+                onClick={() => setFormStatus('idle')}
+                className="mt-6 text-romantic-gold hover:underline font-sans text-[10px] tracking-widest uppercase font-bold"
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
