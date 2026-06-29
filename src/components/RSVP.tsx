@@ -3,7 +3,7 @@ import { Send, CheckCircle2, Sparkles, Moon } from 'lucide-react';
 import { useState, FormEvent } from 'react';
 
 // Paste the URL you get after deploying the Apps Script as a Web App (see SETUP_RSVP.md)
-const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz8M6JKO_y7ojrUD8PVPwVXucuTxqmaeNQPm1-z5ByjeWTnZgW39dblZB6KjzWpL3A/exec';
+const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyqgdP7PfIoxWoL4OjIde4cVBxYGZYXIK4_TOEdj9zf1G8KrJ9Pz0bH3gdXdN7Zww/exec';
 
 export default function RSVP() {
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
