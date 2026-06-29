@@ -4,7 +4,7 @@ import { X, Maximize2, Moon, Sparkles } from 'lucide-react';
 
 const images = [
   "/Taj.jpeg",
-  "/INDIA.jpg",
+  "/Beach.jpeg",
   "/Sabana.jpeg",
   "/Shabeerali.jpeg"
 ];
