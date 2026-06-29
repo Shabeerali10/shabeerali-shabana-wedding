@@ -2,7 +2,8 @@
 
 The RSVP form sends each submission to a Google Apps Script Web App, which:
 1. Adds a row to a Google Sheet (open it anytime, or File → Download → Microsoft Excel).
-2. Emails you (mkshabeeralimk@gmail.com) the details.
+2. Emails you (mkshabeeralimk@gmail.com) only when the response count hits a milestone (100, 200, 300, ... 1000, ...) — not on every single submission.
+3. Rejects a second submission from the same email address — each guest can only respond once.
 
 ## Steps
 
@@ -12,13 +13,28 @@ The RSVP form sends each submission to a Google Apps Script Web App, which:
 
    ```javascript
    const NOTIFY_EMAIL = "mkshabeeralimk@gmail.com";
+   const MILESTONE_STEP = 100; // email every 100th response (100, 200, 300, ...)
 
    function doPost(e) {
      const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
      const data = JSON.parse(e.postData.contents);
+     const email = (data.email || "").trim().toLowerCase();
 
      if (sheet.getLastRow() === 0) {
-       sheet.appendRow(["Timestamp", "Name", "Email", "Attending", "Guests", "Message"]);
+       sheet.appendRow(["Timestamp", "Name", "Email", "Attending", "Message"]);
+     }
+
+     // Reject a second submission from the same email address.
+     const existingEmails = sheet.getLastRow() > 1
+       ? sheet.getRange(2, 3, sheet.getLastRow() - 1, 1).getValues().flat()
+       : [];
+     const alreadyResponded = existingEmails.some(
+       (e) => String(e).trim().toLowerCase() === email
+     );
+     if (alreadyResponded) {
+       return ContentService.createTextOutput(
+         JSON.stringify({ result: "duplicate" })
+       ).setMimeType(ContentService.MimeType.JSON);
      }
 
      sheet.appendRow([
@@ -26,20 +42,17 @@ The RSVP form sends each submission to a Google Apps Script Web App, which:
        data.name || "",
        data.email || "",
        data.attending || "",
-       data.guests || "",
        data.message || "",
      ]);
 
-     MailApp.sendEmail({
-       to: NOTIFY_EMAIL,
-       subject: `New RSVP: ${data.name} (${data.attending === "yes" ? "Attending" : "Not Attending"})`,
-       body:
-         `Name: ${data.name}\n` +
-         `Email: ${data.email}\n` +
-         `Attending: ${data.attending}\n` +
-         `Guests: ${data.guests}\n` +
-         `Message: ${data.message}`,
-     });
+     const responseCount = sheet.getLastRow() - 1; // minus header row
+     if (responseCount > 0 && responseCount % MILESTONE_STEP === 0) {
+       MailApp.sendEmail({
+         to: NOTIFY_EMAIL,
+         subject: `Wedding RSVP milestone: ${responseCount} responses!`,
+         body: `Your RSVP sheet just reached ${responseCount} responses.\n\nView it here: ${SpreadsheetApp.getActiveSpreadsheet().getUrl()}`,
+       });
+     }
 
      return ContentService.createTextOutput(
        JSON.stringify({ result: "success" })

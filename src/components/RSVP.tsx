@@ -6,7 +6,7 @@ import { useState, FormEvent } from 'react';
 const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyqgdP7PfIoxWoL4OjIde4cVBxYGZYXIK4_TOEdj9zf1G8KrJ9Pz0bH3gdXdN7Zww/exec';
 
 export default function RSVP() {
-  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error' | 'duplicate'>('idle');
   const [attending, setAttending] = useState<'yes' | 'no'>('yes');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -19,17 +19,20 @@ export default function RSVP() {
       name: data.get('name'),
       email: data.get('email'),
       attending: data.get('attending'),
-      guests: data.get('guests'),
       message: data.get('message'),
     };
 
     try {
-      await fetch(RSVP_ENDPOINT, {
+      const res = await fetch(RSVP_ENDPOINT, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
       });
+      const result = await res.json();
+      if (result.result === 'duplicate') {
+        setFormStatus('duplicate');
+        return;
+      }
       setFormStatus('success');
       form.reset();
       setAttending('yes');
@@ -152,26 +155,6 @@ export default function RSVP() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-widest font-bold text-romantic-dark/60 ml-2">Number of Guests</label>
-                  <div className="relative">
-                    <select
-                      name="guests"
-                      className="w-full px-6 py-4 rounded-full bg-white border border-romantic-gold/10 focus:outline-none focus:ring-2 focus:ring-romantic-gold/10 focus:border-romantic-gold transition-all appearance-none font-sans text-sm"
-                    >
-                      <option>Just me</option>
-                      <option>2 People</option>
-                      <option>3 People</option>
-                      <option>Family (4+)</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-6 flex items-center pointer-events-none text-romantic-gold">
-                      <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest font-bold text-romantic-dark/60 ml-2">Message for the Couple</label>
                   <textarea
                     rows={4}
@@ -184,6 +167,12 @@ export default function RSVP() {
                 {formStatus === 'error' && (
                   <p className="text-center text-red-500 text-xs font-sans">
                     Something went wrong sending your response. Please try again.
+                  </p>
+                )}
+
+                {formStatus === 'duplicate' && (
+                  <p className="text-center text-romantic-dark/70 text-xs font-sans">
+                    This email has already submitted a response. Each guest may only respond once.
                   </p>
                 )}
 
