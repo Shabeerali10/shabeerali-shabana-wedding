@@ -11,8 +11,8 @@ const weddingDetails = [
   {
     icon: <Clock className="w-6 h-6" />,
     label: "Blessed Hour",
-    value: "01:00 PM",
-    sub: "Nikah Ceremony & Feast"
+    value: "04:00 PM",
+    sub: "Wedding Reception"
   },
   {
     icon: <MapPin className="w-6 h-6" />,
@@ -77,7 +77,7 @@ export default function Details() {
               className="pt-4"
             >
               <a
-                href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Shabeerali+%26+Shabana+Wedding&dates=20260912T130000/20260912T170000&details=Blessed+Nikah+Ceremony+and+wedding+feast+at+Sofia+Lounge,+Kadappadi,+Malappuram.&location=Sofia+Lounge,+Kadappadi,+Malappuram"
+                href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Shabeerali+%26+Shabana+Wedding&dates=20260912T160000/20260912T200000&details=Wedding+Reception+at+Sofia+Lounge,+Kadappadi,+Malappuram.&location=Sofia+Lounge,+Kadappadi,+Malappuram"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-8 py-4 bg-romantic-gold text-white rounded-full hover:bg-romantic-dark transition-colors duration-300 w-full sm:w-auto justify-center shadow-md font-sans text-xs font-semibold tracking-widest uppercase"
