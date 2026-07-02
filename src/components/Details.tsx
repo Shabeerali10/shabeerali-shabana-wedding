@@ -17,8 +17,8 @@ const weddingDetails = [
   {
     icon: <MapPin className="w-6 h-6" />,
     label: "Venue",
-    value: "AL JAZEERA",
-    sub: "Jazeera Convention Center • Kunnumpuram, Malappuram"
+    value: "Sofia Lounge",
+    sub: "Kadappadi, Malappuram"
   }
 ];
 
@@ -76,8 +76,8 @@ export default function Details() {
               whileInView={{ opacity: 1 }}
               className="pt-4"
             >
-              <a 
-                href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Shabeerali+%26+Shabana+Wedding&dates=20260912T130000/20260912T170000&details=Blessed+Nikah+Ceremony+and+wedding+feast+at+Jazeera+Convention+Center,+Kunnumpuram,+Malappuram.&location=Jazeera+Convention+Center,+Kunnumpuram,+Malappuram"
+              <a
+                href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Shabeerali+%26+Shabana+Wedding&dates=20260912T130000/20260912T170000&details=Blessed+Nikah+Ceremony+and+wedding+feast+at+Sofia+Lounge,+Kadappadi,+Malappuram.&location=Sofia+Lounge,+Kadappadi,+Malappuram"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-8 py-4 bg-romantic-gold text-white rounded-full hover:bg-romantic-dark transition-colors duration-300 w-full sm:w-auto justify-center shadow-md font-sans text-xs font-semibold tracking-widest uppercase"
@@ -88,7 +88,7 @@ export default function Details() {
             </motion.div>
           </div>
 
-          {/* Map Section */}
+          {/* Venue Photo + Map Link */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -96,30 +96,22 @@ export default function Details() {
           >
             <div className="relative h-[450px] rounded-[3rem] overflow-hidden shadow-xl bg-white border border-romantic-gold/10 p-2">
               <div className="w-full h-full rounded-[2.5rem] overflow-hidden relative">
-                {/* Live Google Maps Embed */}
-                <iframe
-                  src="https://maps.google.com/maps?q=Jazeera%20Convention%20Center,%20Kunnumpuram,%20Malappuram&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={true}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="w-full h-full grayscale-[10%] contrast-[95%] brightness-[98%]"
-                ></iframe>
-                
-                {/* Overlay Label */}
-                <div className="absolute top-6 left-6 glass px-4 py-2 rounded-full border border-romantic-gold/20 pointer-events-none">
-                  <span className="text-[10px] text-romantic-gold uppercase tracking-[0.3em] font-bold">Interactive Map</span>
+                <img
+                  src="/Venue.jpg"
+                  alt="Sofia Lounge, Kadappadi, Malappuram"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-6 left-6 bg-white/70 backdrop-blur-md px-4 py-2 rounded-full border border-romantic-gold/20 pointer-events-none">
+                  <span className="text-[10px] text-romantic-gold uppercase tracking-[0.3em] font-bold">Sofia Lounge</span>
                 </div>
               </div>
             </div>
 
             {/* Map Link */}
             <div className="text-center mt-2">
-              <a 
-                href="https://maps.app.goo.gl/X1w4Y5LMS27id96F7" 
-                target="_blank" 
+              <a
+                href="https://maps.app.goo.gl/7cv5nh6fsNr8iYqv9"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 text-romantic-gold hover:text-romantic-dark transition-colors duration-300 bg-white/50 px-6 py-3 rounded-full border border-romantic-gold/10"
               >
@@ -128,7 +120,7 @@ export default function Details() {
                 </div>
                 <div className="text-left">
                   <p className="text-xs font-serif font-bold">View on Google Maps</p>
-                  <p className="text-[9px] text-romantic-dark/50 font-sans uppercase tracking-widest">Jazeera Convention Center</p>
+                  <p className="text-[9px] text-romantic-dark/50 font-sans uppercase tracking-widest">Sofia Lounge · Kadappadi, Malappuram</p>
                 </div>
                 <ExternalLink className="w-3.5 h-3.5 ml-1 opacity-50" />
               </a>
