@@ -1,4 +1,4 @@
-import { Heart, Sparkles } from 'lucide-react';
+import { Heart, Sparkles, Instagram } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -26,6 +26,22 @@ export default function Footer() {
           <Sparkles size={10} className="text-romantic-gold" />
           Made with <Heart size={10} className="text-romantic-gold fill-romantic-gold" /> for Shabeerali & Shabana
           <Sparkles size={10} className="text-romantic-gold" />
+        </div>
+
+        {/* Instagram */}
+        <div className="mb-8">
+          <p className="text-white/40 text-[10px] uppercase tracking-widest font-sans mb-3">
+            Wishes · Questions · Updates
+          </p>
+          <a
+            href="https://www.instagram.com/x.pyler/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-romantic-gold/40 transition-all duration-300 group"
+          >
+            <Instagram className="w-4 h-4 text-romantic-gold group-hover:scale-110 transition-transform duration-300" />
+            <span className="text-white/70 group-hover:text-white transition-colors text-xs font-sans tracking-wider">@x.pyler</span>
+          </a>
         </div>
 
         <div className="h-px w-24 bg-white/10 mx-auto mb-8" />
